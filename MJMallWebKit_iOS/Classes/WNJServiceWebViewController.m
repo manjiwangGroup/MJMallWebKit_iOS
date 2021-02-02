@@ -19,6 +19,7 @@
 
 - (instancetype)initWithDelegate:(id<WKScriptMessageHandler>)scriptDelegate;
 
+
 @end
 
 @implementation WeakWebViewScriptMessageDelegate
@@ -56,18 +57,12 @@ static NSString* const kJavaScriptOpertion = @"action";
 
 @property (nonatomic, assign) NSInteger pageCount;
 
+/// 标题名称
+@property (nonatomic, copy) NSString *titleName;
+
 @end
 
 @implementation WNJServiceWebViewController
-
-#pragma mark - 全能初始化方法
-- (instancetype)initWithUrl:(NSString *)url withTitle:(NSString *)title {
-    if (self = [super init]) {
-        _url = url;
-        _titleName = title;
-    }
-    return self;
-}
 
 static inline CGFloat mj_statusBarHeight() {
     CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
@@ -108,19 +103,14 @@ static inline CGFloat mj_bottomSpace() {
     [self.view addSubview:self.statusBar];
     [self.statusBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(_isHiddenNav?mj_statusBarHeight():0);
+        make.height.mas_equalTo(mj_statusBarHeight());
     }];
     
     [self.view addSubview:self.webView];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if ([_url containsString:@"lustreMall"]) {//附近光彩商城相关页面底部要在Tabbar上面
-            make.left.right.mas_equalTo(self.view);
-            make.top.mas_equalTo(self.statusBar.mas_bottom);
-            make.bottom.mas_equalTo(self.view).offset(-49-mj_bottomSpace());
-        }else {
-            make.top.mas_equalTo(self.statusBar.mas_bottom);
-            make.left.right.bottom.mas_equalTo(self.view);
-        }
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.statusBar.mas_bottom);
+        make.bottom.mas_equalTo(self.view).offset(-mj_bottomSpace());
     }];
     
     [self.view addSubview:self.progressView];
@@ -221,11 +211,6 @@ static inline CGFloat mj_bottomSpace() {
     }
 }
 
-#pragma mark - setMethod
-- (void)setIsHiddenNav:(BOOL)isHiddenNav {
-    _isHiddenNav = isHiddenNav;
-}
-
 #pragma mark - WKScriptMessageHandler
 /// 被自定义的WKScriptMessageHandler在回调方法里通过代理回调回来，绕了一圈就是为了解决内存不释放的问题
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
@@ -270,11 +255,13 @@ static inline CGFloat mj_bottomSpace() {
             if ([dataObj isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *data = dataObj;
                 NSString *url = [data objectForKey:@"url"];
-                WNJServiceWebViewController *webView = [[WNJServiceWebViewController alloc] initWithUrl:url withTitle:@"" isHiddenNav:NO];
+                WNJServiceWebViewController *webView = [[WNJServiceWebViewController alloc] init];
+                webView.url = url;
                 [self.navigationController pushViewController:webView animated:YES];
             }else if ([dataObj isKindOfClass:[NSString class]]) {
                 NSString *url = dataObj;
-                WNJServiceWebViewController *webView = [[WNJServiceWebViewController alloc] initWithUrl:url withTitle:@"" isHiddenNav:NO];
+                WNJServiceWebViewController *webView = [[WNJServiceWebViewController alloc] init];
+                webView.url = url;
                 [self.navigationController pushViewController:webView animated:YES];
             }
         }

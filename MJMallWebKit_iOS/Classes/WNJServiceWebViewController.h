@@ -20,14 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 页面url
 @property (nonatomic, copy) NSString *url;
 
-/// 标题名称
-@property (nonatomic, copy) NSString *titleName;
-
-/// 是否隐藏导航栏
-@property (nonatomic, assign) BOOL isHiddenNav;
-
-/// 全能初始化方法
-- (instancetype)initWithUrl:(NSString *)url withTitle:(NSString *)title isHiddenNav:(BOOL)isHiddenNav;
 
 @end
 
