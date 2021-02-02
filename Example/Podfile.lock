@@ -1,0 +1,27 @@
+PODS:
+  - CTMediator (44)
+  - Masonry (1.1.0)
+  - MJMallWebKit_iOS (0.1.0):
+    - CTMediator
+    - Masonry
+
+DEPENDENCIES:
+  - MJMallWebKit_iOS (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - CTMediator
+    - Masonry
+
+EXTERNAL SOURCES:
+  MJMallWebKit_iOS:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CTMediator: 933dba523da87bf875e4a7e8728945fbc512f1d2
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJMallWebKit_iOS: ea11ad0a7134102d3339bbe538963d13faa3c548
+
+PODFILE CHECKSUM: fd1a8c8397b1783d463e7df14846b551f8585284
+
+COCOAPODS: 1.9.1
